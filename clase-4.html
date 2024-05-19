@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    
+    <h1>Datos del Servidor:</h1>
+    
+    <ul id="datosList"></ul>
+    
+    <script>
+        // URL del servidor
+        const serverURL = 'http://localhost:3000';
+
+        // Elemento en el que se mostrarán los datos
+        const datosList = document.getElementById('datosList');
+
+        // Función para obtener y mostrar los datos del servidor
+        async function obtenerDatos() {
+            try {
+
+                // Realizar solicitud GET al servidor
+                const respuesta = await fetch(`${serverURL}/`);
+
+                // Verificar si la solicitud fue exitosa (código 200)
+                if (respuesta.ok) {
+                    // Obtener datos en formato JSON
+                    const datos = await respuesta.json();
+                    // Mostrar los datos en la lista
+                    datos.forEach(dato => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${dato.id}: ${dato.nombre}`;
+                        datosList.appendChild(listItem);
+                    });
+                } else {
+                    console.error('Error al obtener datos del servidor:', respuesta.statusText);
+                }
+            } catch (error) {
+                console.error('Error en la solicitud:', error);
+            }
+        }
+        // Llamar a la función para obtener y mostrar los datos
+        obtenerDatos();
+    </script>
+
+</body>
+
+</html>
